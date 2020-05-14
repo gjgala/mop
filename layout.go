@@ -210,7 +210,7 @@ func buildQuotesTemplate() *template.Template {
 
 
 {{.Header}}
-{{range.Stocks}}{{if .Advancing}}<green>{{end}}{{.Ticker}}{{.LastTrade}}{{.Change}}{{.ChangePct}}{{.Open}}{{.Low}}{{.High}}{{.Low52}}{{.High52}}{{.Volume}}{{.AvgVolume}}{{.PeRatio}}{{.Dividend}}{{.Yield}}{{.MarketCap}}{{.PreOpen}}{{.AfterHours}}</>
+{{range.Stocks}}{{if .Advancing}}<green>{{else}}<red>{{end}}{{.Ticker}}{{.LastTrade}}{{.Change}}{{.ChangePct}}{{.Open}}{{.Low}}{{.High}}{{.Low52}}{{.High52}}{{.Volume}}{{.AvgVolume}}{{.PeRatio}}{{.Dividend}}{{.Yield}}{{.MarketCap}}{{.PreOpen}}{{.AfterHours}}</>
 {{end}}`
 
 	return template.Must(template.New(`quotes`).Parse(markup))
@@ -221,7 +221,9 @@ func highlight(collections ...map[string]string) {
 	for _, collection := range collections {
 		if collection[`change`][0:1] != `-` {
 			collection[`change`] = `<green>` + collection[`change`] + `</>`
-		}
+        } else {
+            collection[`change`] = `<red>` + collection[`change`] + `</>`
+        }
 	}
 }
 
